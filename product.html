@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Page | Sai Prasad Paper Products</title>
+  <link rel="stylesheet" href="style.css" />
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+</head>
+<body>
+  <div class="background-gradient"></div>
+<div class="container">
+  <h1 class="title">Our Products</h1>
+
+  <!-- Redesigned Search Bar -->
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search products..." />
+    <i class="fas fa-search search-icon"></i>
+  </div>
+
+<!-- Floating Search Button -->
+<button id="scrollToSearchBtn" title="Go to Search">
+  <i class="fas fa-search"></i>
+</button>
+
+<!-- Scroll To Top Button -->
+<button id="scrollTopBtn" title="Go to Top">
+  <i class="fas fa-arrow-up"></i>
+</button>
+
+
+  <div class="product-grid" id="productGrid">
+    <!-- Products will be injected by JS -->
+  </div>
+</div>
+
+
+  <!-- Modal -->
+  <div id="productModal" class="modal">
+    <div class="modal-content">
+      <span class="closeBtn">&times;</span>
+      <h2 id="modalTitle"></h2>
+      <img id="modalImage" src="" alt="">
+      <p id="modalDescription"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+
+  <style>
+    body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  overflow-x: hidden;
+}
+
+.background-gradient {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  /*background: linear-gradient(135deg, #03e9fa 0%, #056cfc 100%);*/
+  background: linear-gradient(135deg, #f6fff8, #d0f0e0);
+
+  z-index: -1;
+  animation: gradientFlow 10s ease infinite;
+}
+
+@keyframes gradientFlow {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+.title {
+  /*animation: pulse 1.0s infinite;*/
+  color: #080808;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow:
+    3px 3px 0 #ffe600,  
+     -3px -3px 0 #ffe600,
+    3px  3px 0 #ffe600,
+     -3px  -3px 0 #ffe600;  /* Creates a black outline effect */
+}
+    @keyframes pulse {
+        0% {opacity: 1;}
+        50% {opacity: 0.5;}
+        100% {opacity: 1;}
+    }
+
+
+
+.search-container {
+  position: relative;
+  width: 80%;
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+#searchInput {
+  padding: 12px 45px 12px 20px; /* Padding right for icon */
+  width: 80%;
+  border: 2px solid #000;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  color: #000;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#searchInput::placeholder {
+  color: #555;
+}
+
+#searchInput:focus {
+  border-color: #fdcf04;
+  box-shadow: 0 0 8px #fdcf04;
+}
+
+.search-icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #000;
+  font-size: 1.1rem;
+  pointer-events: none;
+}
+
+
+/* search button scroll & scroll arrow */
+/* Common button styles */
+#scrollToSearchBtn,
+#scrollTopBtn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  background: linear-gradient(135deg, #f8b500, #f6d365);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: none; /* Hidden by default */
+  transition: transform 0.3s ease;
+}
+
+#scrollToSearchBtn:hover,
+#scrollTopBtn:hover {
+  transform: scale(1.1);
+}
+
+/* Position scrollToSearch slightly above scrollTop */
+#scrollToSearchBtn {
+  bottom: 90px;
+}
+
+
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.card {
+  position: relative;
+  background: linear-gradient(90deg, #00c6ff, #0072ff, #0040ff); /* Fixed gradient */
+  color: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+
+.card::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.25) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  transform: rotate(0deg);
+  animation: shineLight 4s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.card * {
+  position: relative;
+  z-index: 2;
+}
+@keyframes shineLight {
+  0% {
+    transform: translate(-100%, -100%) rotate(25deg);
+  }
+  100% {
+    transform: translate(100%, 100%) rotate(25deg);
+  }
+}
+
+
+
+.card img {
+  max-width: 100%;
+  border-radius: 50%;
+  height: 150px;
+  object-fit: cover;
+}
+
+@keyframes rotateCircle {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.card img {
+  animation: rotateCircle 25s linear infinite;
+}
+
+
+.card img {
+  border-radius: 50%;
+  padding: 3px;
+  background: linear-gradient(90deg, #ffe600, #ffe600, #ffe600);
+  box-shadow: 0 0 12px rgba(0, 114, 255, 0.5);
+}
+
+.card img {
+  transition: transform 0.3s ease;
+}
+.card img:hover {
+  transform: scale(1.05) rotateZ(2deg);
+}
+
+
+
+.card h3 {
+  margin: 10px 0 5px;
+}
+
+.card p {
+  font-size: 1rem;
+}
+
+.card h3,
+.card p {
+  color: #000000;
+}
+
+
+.card .btns {
+  margin-top: 1rem;
+}
+
+.card button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: none;
+  border-radius: 25px;
+  background: #fff;
+  color: #000;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.card button {
+  padding: 8px 16px;
+  margin: 5px;
+  border: 2px solid #000;
+  border-radius: 25px;
+  background: transparent;
+  color: #1f1e1e;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+
+
+/*.card button:hover {
+  background: #74f768;
+  color: #000; /* Set text color to black /
+}*/
+
+
+.card button:hover {
+  background: #f7c431;
+  color: #000;
+  position: relative;
+  overflow: hidden;
+}
+
+.card button:hover::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.6), transparent);
+  transform: skewX(-25deg);
+  animation: shineLoop 1.2s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes shineLoop {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 120%;
+  }
+}
+
+
+.card button {
+  background: linear-gradient(135deg, #ff6a00, #ee0979, #ff6a00);
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0, 114, 255, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 114, 255, 0.8);
+}
+
+
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: #fff;
+  color: #000;
+  margin: 5% auto;
+  padding: 20px 30px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 20px;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+.modal-content img {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 4px solid #00c6ff;
+}
+
+.modal-content h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: #ff5252;
+}
+
+  </style>
+
+
+<script>
+    const products = [
+  { name: "Paper Dona", price: "₹2.00", image: "dona.jpg", description: "Eco-friendly disposable paper cup for beverages." },
+  { name: "Paper Dish", price: "₹5.00", image: "dish1-removebg-preview.png", description: "Biodegradable paper plate perfect for events." },
+  { name: "Paper Bowl", price: "₹3.00", image: "silver_kappa-removebg-preview (1).png", description: "Disposable bowl ideal for soups and gravies." },
+  { name: "Green plain thali", price: "₹8.00", image: "green plain thali.jpg", description: "Compartmental tray for food service." },
+  { name: "Silver kappa thali", price: "₹1.50", image: "silver_kappa-removebg-preview (1).png", description: "Small paper cup perfect for ice cream." },
+  { name: "Green kappa thali", price: "₹0.50", image: "pro9-removebg-preview.png", description: "Greaseproof paper for wrapping food." },
+  { name: "Silver plain thali", price: "₹12.00", image: "7-inch-disposable-paper-plate-1000x1000.jpg", description: "Takeaway paper box with lid." },
+  { name: "Paper Cup", price: "₹1.00", image: "paper cup.jpeg", description: "Biodegradable paper straw." },
+  { name: "Prasad vati", price: "₹15.00", image: "https://via.placeholder.com/250x150?text=Lunch+Box", description: "Eco-friendly lunch container." },
+  { name: "Paper Jumbo bowl", price: "₹10.00", image: "jumbo bowl.jpg", description: "Big tub for popcorn/snacks." }
+];
+
+const grid = document.getElementById("productGrid");
+const searchInput = document.getElementById("searchInput");
+const modal = document.getElementById("productModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalImage = document.getElementById("modalImage");
+const modalDescription = document.getElementById("modalDescription");
+
+function renderProducts(filtered = products) {
+  grid.innerHTML = "";
+  filtered.forEach((product, index) => {
+    grid.innerHTML += `
+      <div class="card">
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p>${product.price}</p>
+        <div class="btns">
+          <button onclick="openModal(${index})">View Details</button>
+          <button onclick="buyNow('${product.name}')">Buy Now</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function openModal(index) {
+  modalTitle.textContent = products[index].name;
+  modalImage.src = products[index].image;
+  modalDescription.textContent = products[index].description;
+  modal.style.display = "block";
+}
+
+function buyNow(productName) {
+  const msg = `Hi, I'm interested in your product: ${productName}`;
+  window.location.href = `https://wa.me/919156833877?text=${encodeURIComponent(msg)}`;
+  history.pushState(null, "", location.href);
+  window.onpopstate = function () {
+    history.go(1); // prevent back
+  };
+}
+
+document.querySelector(".closeBtn").onclick = () => modal.style.display = "none";
+
+searchInput.addEventListener("input", () => {
+  const val = searchInput.value.toLowerCase();
+  const filtered = products.filter(p => p.name.toLowerCase().includes(val));
+  renderProducts(filtered);
+});
+
+renderProducts();
+
+</script>
+
+
+
+<script>
+  window.onload = function () {
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    const scrollToSearchBtn = document.getElementById('scrollToSearchBtn');
+    const searchInput = document.getElementById('searchInput');
+
+    // Show buttons after scrolling down
+    window.onscroll = function () {
+      if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        scrollTopBtn.style.display = "block";
+        scrollToSearchBtn.style.display = "block";
+      } else {
+        scrollTopBtn.style.display = "none";
+        scrollToSearchBtn.style.display = "none";
+      }
+    };
+
+    // Scroll to top
+    scrollTopBtn.onclick = function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    // Scroll to search bar
+    scrollToSearchBtn.onclick = function () {
+      searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      searchInput.focus();
+    };
+  };
+</script>
+
+
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-info">
+      <h3>Contact Us</h3>
+      <p><strong>Address:</strong> Marketyard, Pune : 411037</p>
+      <p><strong>Phone:</strong> +91 98505 68904 / 91568 33877</p>
+      <p><strong>Email:</strong> saiprasad@paperproducts.com</p>
+    </div>
+
+    <div class="footer-links">
+      <h3>Follow Us</h3>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/sai_prasad_paper_product/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=100066933514193" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://wa.me/919156833877" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="https://www.youtube.com/@SaiPrasadPaperProducts" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+    <div class="footer-back">
+      <h3>Navigation</h3>
+      <button onclick="history.back(profilecard.html)">← Go Back</button>
+    </div>
+  </div>
+  <p class="footer-bottom">© 2025 Sai Prasad Paper Products. All Rights Reserved.</p>
+</footer>
+
+<style>
+  .footer {
+  background: 
+    url('https://images.rawpixel.com/image_800/cHJpdmF0ZS9sci9pbWFnZXMvd2Vic2l0ZS8yMDI0LTAxL3Jhd3BpeGVsX29mZmljZV8yOV9waG90b2dyYXBoeV9vZl9ibGFja19icmlja193YWxsX3RleHR1cmVfZm9yX181NjU5OWZlNi1iZWY5LTRmMWUtOTJlYi01YjI0OGIxY2RkOThfMS5qcGc.jpg'),
+    linear-gradient(145deg, #2f2f2f, #444, #2f2f2f);
+  background-blend-mode: overlay;
+  background-size: 200px 200px;
+  color: #fff;
+  padding: 1px 1px 1px;
+}
+
+.footer-content {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.footer-content h3 {
+  margin-bottom: 10px;
+  color: #ffe600;
+}
+
+.footer-info,
+.footer-links,
+.footer-back {
+  text-align: center;
+  flex: 1;
+}
+
+.footer-bottom {
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 20px;
+  font-size: 1.5rem;
+  opacity: 0.8;
+  margin-top: 10px;
+}
+
+.footer-back button {
+  padding: 8px 16px;
+  background: #ffe600;
+  color: #000;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.footer-back button:hover {
+  background: #fff;
+  color: #000;
+}
+
+.social-icons a {
+  color: #fff;
+  font-size: 3.5rem;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #ffe600;
+}
+
+
+</style>
+
+</body>
+</html>
+
+
