@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us | Sai Prasad Paper Products</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background:  #0a1a2f;
+      color: #fff;
+    }
+
+    .contact-section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .contact-header h2 {
+      font-size: 2.8rem;
+      color: #00ffff;
+    }
+
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .contact-form, .contact-info {
+      flex: 1 1 45%;
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+      animation: slideIn 1s ease forwards;
+    }
+
+    .contact-form h3,
+    .contact-info h3 {
+      color: #00ffff;
+      margin-bottom: 20px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      background: #2a2a2a;
+      color: #fff;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus {
+      outline: 2px solid #00ffff;
+    }
+
+    .contact-form button {
+      background: #00ffff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      font-weight: 600;
+      color: #000;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .contact-form button:hover {
+      background: #00cccc;
+    }
+
+    .contact-info p {
+      line-height: 1.7;
+      color: #ccc;
+      margin: 10px 0;
+    }
+
+    .contact-info i {
+      color: #00ffff;
+      margin-right: 10px;
+    }
+
+    .map-container {
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+    }
+
+    .map-container iframe {
+      width: 100%;
+      height: 250px;
+      border: none;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .contact-container {
+        flex-direction: column;
+      }
+    }
+
+
+.name-group {
+  display: flex;
+  gap: 5px;
+  margin: 10px 0;
+}
+
+.name-group input {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: #fff;
+  flex: 1;
+}
+
+/* Make mobile number slightly smaller */
+#mobile {
+  flex: 0.8;
+  min-width: 120px;
+}
+
+.name-group input {
+  margin: 0; /* Remove extra margin between name fields and below */
+}
+
+.name-group {
+  margin-bottom: -1px; /* Smaller gap below the entire name row */
+}
+
+
+  </style>
+</head>
+<body>
+
+  <section class="contact-section">
+    <div class="contact-header">
+      <h2>Contact Us</h2>
+      <p>We’d love to hear from you. Reach out with any questions, inquiries, or feedback!</p>
+    </div>
+
+    <div class="contact-container">
+      <!-- Contact Form -->
+      <div class="contact-form">
+        <h3>Send a Message</h3>
+        <!--<form id="contactForm">
+          <input type="text" id="name" placeholder="Your Name" required>
+          <input type="email" id="email" placeholder="Your Email" required>
+          <input type="text" id="subject" placeholder="Subject" required>
+          <textarea id="message" rows="6" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form-->
+
+
+        <form id="contactForm">
+  <!-- Name, Father's Name, Surname in one line -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap;">
+
+    <div class="name-group">
+  <input type="text" id="name" placeholder="Your Name" required>
+  <input type="text" id="surname" placeholder="Surname" required>
+  <input type="tel" id="mobile" placeholder="Mobile Number (10 digits)" required>
+</div>
+
+
+  </div>
+  <br>
+
+  <!-- Email with validation -->
+  <input type="email" id="email" placeholder="Your Email" required>
+  <br><br>
+
+  <!-- Subject -->
+  <input type="text" id="subject" placeholder="Subject" required>
+  <br><br>
+
+  <!-- Message -->
+  <textarea id="message" rows="6" placeholder="Your Message" required></textarea>
+  <br><br>
+
+  <button type="submit">Send Message</button>
+</form>
+
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    const name = document.getElementById('name').value.trim();
+    const surname = document.getElementById('surname').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const subject = document.getElementById('subject').value.trim();
+    const message = document.getElementById('message').value.trim();
+
+
+    if (!/^[0-9]{10}$/.test(mobile)) {
+  alert("Please enter a valid 10-digit mobile number.");
+  e.preventDefault();
+  return;
+}
+
+
+    if (!email || !email.includes('@') || !email.includes('.com')) {
+      alert("Please enter a valid email address (must include '@' and end with '.com').");
+      e.preventDefault();
+      return;
+    }
+
+    if (!subject) {
+      alert("Please enter a subject.");
+      e.preventDefault();
+      return;
+    }
+
+    if (!message) {
+      alert("Please enter your message.");
+      e.preventDefault();
+      return;
+    }
+
+    // All checks passed — form will submit
+  });
+
+
+  // Capitalize the first letter of each word in a string
+  function capitalizeWords(str) {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+  }
+
+  // Apply to all 3 name fields
+  ['name', 'fatherName', 'surname'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function () {
+      this.value = capitalizeWords(this.value);
+    });
+  });
+</script>
+
+
+      </div>
+
+      <!-- Contact Info + Google Map -->
+      <div class="contact-info">
+        <h3>Contact Info</h3>
+        <p><i class="fa fa-map-marker"></i> Sai Prasad Paper Products, Pune, Maharashtra</p>
+        <p><i class="fa fa-phone"></i> +91 98505 68904</p>
+        <p><i class="fa fa-envelope"></i> samarth.lasure@gmail.com / santosh.lasure@gmail.com</p>
+        <p><i class="fa fa-clock-o"></i> Mon - Sat: 10:00 AM - 6:00 PM</p>
+        <p>"We kindly request you to contact us before visiting". </p>
+
+        <div class="map-container">
+         
+       <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3784.0669938150827!2d73.86719440976886!3d18.480624382532557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2ebb468e294cf%3A0xab0f09c9774f3be0!2sSai%20Prasad%20Paper%20Products!5e0!3m2!1sen!2sin!4v1754110841071!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FontAwesome -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<!-- WhatsApp Integration -->
+<script>
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const surname = document.getElementById("surname").value.trim();
+
+    const mobile = document.getElementById("mobile").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const subject = document.getElementById("subject").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    // List of WhatsApp numbers (add more if needed)
+    const phoneNumbers = ["9156833877", "9850568904"]; // Replace with your numbers
+
+    const whatsappMessage =
+      `New Contact Form Submission:%0A` +
+      `👤 Name: ${encodeURIComponent(name + " " + surname)}%0A` + 
+      `📧 Email: ${encodeURIComponent(email)}%0A` +
+      `📱 Mobile: ${encodeURIComponent(mobile)}%0A` +
+      `📝 Subject: ${encodeURIComponent(subject)}%0A` +
+      `💬 Message: ${encodeURIComponent(message)}`;
+
+    // Loop through numbers
+    phoneNumbers.forEach((num, index) => {
+      const whatsappURL = `https://wa.me/${num}?text=${whatsappMessage}`;
+
+      setTimeout(() => {
+        if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+          // On mobile, redirect one at a time
+          window.location.href = whatsappURL;
+        } else {
+          // On desktop, open in new tab
+          window.open(whatsappURL, "_blank");
+        }
+      }, index * 1000); // Delay each by 1 second
+    });
+
+    // Reset form after short delay
+    setTimeout(() => {
+      document.getElementById("contactForm").reset();
+    }, 500);
+  });
+</script>
+
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+
+    <!-- About -->
+    <div class="footer-box">
+      <h3>About</h3>
+      <p>We are a fully automated manufacturing unit producing eco-friendly paper products, committed to quality, innovation, and sustainability since 2018.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-box">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a href="profilecard.html">Home</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="product.html">Products</a></li>
+        <li><a href="contact us.html">Contact</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact -->
+    <div class="footer-box">
+      <h3>Contact</h3>
+      <p>Email: santosh.lasure@gmail.com</p>
+      <p>Phone: +91 9850568904  / 9156833877</p>
+      <div class="social-icons">
+        <a href="https://www.instagram.com/sai_prasad_paper_product?igsh=MXYzMnZzOHZvNnd0Mw==" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.facebook.com/share/1C4FPpRWnJ/" title="Facebook"><i class="fab fa-facebook-f text-blue-600 text-lg"></i></a>
+        <!--a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a-->
+        <a href="https://www.youtube.com/@saiprasadpaperproducts" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; 2010–2025 Sai Prasad Paper Products. All rights reserved.</p>
+  </div>
+</footer>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-pV2zNnRZqRjLzERvX5In9rYcdlYjqxGbyiB5Zn1MZZr0Uv/Ul+yt+F3r0sOH0f+lD69XSmQrZmzTXmT5vF1DjA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+    /* Footer */
+.footer {
+  background: linear-gradient(180deg, #3a3939, #1a1a1a);
+  color: #ccc;
+  padding: 50px 20px 20px;
+  animation: fadeInUp 1s ease-in-out;
+}
+
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: auto;
+  gap: 40px;
+}
+
+.footer-box {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footer-box h3 {
+  color: #0ff;
+  margin-bottom: 15px;
+}
+
+.footer-box p,
+.footer-box li {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #bbb;
+}
+
+.footer-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-box ul li {
+  margin-bottom: 10px;
+}
+
+.footer-box ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-box ul li a:hover {
+  color: #0ff;
+}
+
+.social-icons a {
+  font-size: 1.3rem;
+  color: #bbb;
+  margin-right: 15px;
+  transition: 0.3s;
+}
+
+.social-icons a:hover {
+  color: #0ff;
+  transform: scale(1.1);
+}
+
+.footer-bottom {
+  border-top: 1px solid #333;
+  text-align: center;
+  padding-top: 20px;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+/* Fade in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-box {
+    padding: 10px 0;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+</style>
+
+
+
+</body>
+</html>
